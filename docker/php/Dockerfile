@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     git \
+    nano \
     && docker-php-ext-install pdo pdo_pgsql
 
 # Устанавливаем Composer
