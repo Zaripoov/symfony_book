@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Model\BookCategoryListItem;
+use OpenApi\Annotations as OA;
 
 class BookController extends AbstractController
 {
@@ -15,7 +17,13 @@ class BookController extends AbstractController
     {
     }
 
-    #[Route(path: '/api/v1/category/{id}/books')]
+    /**
+     * @OA\Response(
+     *     response=200,
+     *     description="Returns books inside a category",
+     * )
+     */
+    #[Route(path: '/api/v1/category/{id}/books', methods: ['GET'])]
     public function bookByCategory(int $id): Response
     {
         try {
