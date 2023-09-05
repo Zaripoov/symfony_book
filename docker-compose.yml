@@ -13,7 +13,7 @@ services:
       - .:/var/www
     depends_on:
       - database
-###> doctrine/doctrine-bundle ###
+      - database-test
   database:
     container_name: postgres
     image: postgres:15.4-alpine
@@ -27,9 +27,6 @@ services:
       - "5432:5432"
     volumes:
       - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
   nginx:
     container_name: nginx
     image: nginx:latest
@@ -41,7 +38,18 @@ services:
     depends_on:
       - app
 
+  database-test:
+    container_name: postgres-test
+    image: postgres:15.4-alpine
+    environment:
+      POSTGRES_DB: postgres
+      # You should definitely change the password in production
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5433:5432"
+    volumes:
+      - database_data:/var/lib/postgresql/data:rw
 volumes:
-###> doctrine/doctrine-bundle ###
   database_data:
-###< doctrine/doctrine-bundle ###
